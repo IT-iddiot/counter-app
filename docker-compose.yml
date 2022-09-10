@@ -1,19 +1,19 @@
-version: "3.5"
+version: "3.9"
 services:
-  web-fe:
+  web:
     build: .
-    command: python app.py
     ports:
-      - target: 5000
-        published: 5000
+      - "8000:5000"
     networks:
       - counter-net
     volumes:
-      - type: volume
-        source: counter-vol
-        target: /code
+      - .:/code
+    environment:
+      FLASK_DEBUG: True
   redis:
     image: "redis:alpine"
+    volumes:
+      - redis:/data
     networks:
       counter-net:
 
@@ -21,4 +21,4 @@ networks:
   counter-net:
 
 volumes:
-  counter-vol:
+  redis:
